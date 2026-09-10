@@ -82,6 +82,7 @@ async function loadPortfolio() {
         const portfolio = await response.json();
 
         currentPortfolio = portfolio;
+
         investorName.textContent = portfolio.investorName;
         investorAge.textContent = portfolio.age;
 
@@ -387,3 +388,47 @@ async function submitWithdrawal(event) {
             "Submit Withdrawal";
     }
 }
+
+/**
+ * Requests the CSV report from the backend.
+ *
+ * Spring returns the CSV with Content-Disposition: attachment,
+ * causing the browser to download the file.
+ */
+function downloadCsv() {
+
+    window.location.href =
+        `/api/withdrawals/export?investorId=${INVESTOR_ID}`;
+}
+
+
+/*
+ * Connect buttons and forms to their JavaScript behaviour.
+ */
+withdrawalForm.addEventListener(
+    "submit",
+    submitWithdrawal
+);
+
+refreshPortfolioButton.addEventListener(
+    "click",
+    loadPortfolio
+);
+
+downloadCsvButton.addEventListener(
+    "click",
+    downloadCsv
+);
+
+
+/*
+ * Load portfolio and withdrawal data when the page first opens.
+ */
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
+
+        await loadPortfolio();
+        await loadWithdrawalHistory();
+    }
+);
