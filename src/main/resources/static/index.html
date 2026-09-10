@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Enviro365 Investment Portal</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header class="page-header">
+        <div>
+            <h1>Enviro365 Investment Portal</h1>
+            <p>Portfolio and Withdrawal Management</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!--
+            Portfolio information is loaded from:
+            GET /api/investors/{investorId}/portfolio
+        -->
+        <section class="card" id="portfolio-section">
+
+            <div class="section-heading">
+                <div>
+                    <p class="section-label">Portfolio</p>
+                    <h2>Portfolio Dashboard</h2>
+                </div>
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="refresh-portfolio-button">
+                    Refresh
+                </button>
+            </div>
+
+            <div id="portfolio-loading">
+                Loading portfolio...
+            </div>
+
+            <div id="portfolio-content" class="hidden">
+
+                <div class="investor-summary">
+
+                    <div>
+                        <span class="summary-label">Investor</span>
+                        <strong id="investor-name">-</strong>
+                    </div>
+
+                    <div>
+                        <span class="summary-label">Age</span>
+                        <strong id="investor-age">-</strong>
+                    </div>
+
+                    <div>
+                        <span class="summary-label">Total Balance</span>
+                        <strong id="portfolio-balance">-</strong>
+                    </div>
+
+                </div>
+
+                <h3>Investment Products</h3>
+
+                <div
+                    id="product-list"
+                    class="product-grid">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!--
+            The form sends a request to:
+            POST /api/withdrawals
+        -->
+        <section class="card">
+
+            <div class="section-heading">
+                <div>
+                    <p class="section-label">Transaction</p>
+                    <h2>Submit Withdrawal</h2>
+                </div>
+            </div>
+
+            <form id="withdrawal-form">
+
+                <div class="form-group">
+
+                    <label for="product-select">
+                        Investment Product
+                    </label>
+
+                    <select
+                        id="product-select"
+                        name="productId"
+                        required>
+
+                        <option value="">
+                            Select a product
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="withdrawal-amount">
+                        Withdrawal Amount
+                    </label>
+
+                    <input
+                        type="number"
+                        id="withdrawal-amount"
+                        name="amount"
+                        min="0.01"
+                        step="0.01"
+                        placeholder="e.g. 50000.00"
+                        required>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                    id="withdrawal-button">
+
+                    Submit Withdrawal
+
+                </button>
+
+            </form>
+
+            <div
+                id="message"
+                class="message hidden">
+            </div>
+
+        </section>
+
+
+        <!--
+            Withdrawal records are loaded from:
+            GET /api/withdrawals?investorId={id}
+        -->
+        <section class="card">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="section-label">Activity</p>
+                    <h2>Withdrawal History</h2>
+                </div>
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="download-csv-button">
+
+                    Download CSV
+
+                </button>
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Product</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="withdrawal-history">
+
+                        <tr>
+                            <td colspan="5">
+                                No withdrawals loaded.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>
+            Enviro365 Junior Developer Assessment
+        </p>
+    </footer>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
